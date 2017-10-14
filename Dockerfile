@@ -75,9 +75,9 @@ RUN ldconfig
 
 ##########################################################
 ## Install pwngdb
-WORKDIR /usr/src
+WORKDIR ~
 RUN git clone https://github.com/scwuaptx/Pwngdb.git
-RUN cp ./Pwngdb/.gdbinit ~/
+RUN cp ~/Pwngdb/.gdbinit ~/
 
 ###########################################################
 # Cleanup
