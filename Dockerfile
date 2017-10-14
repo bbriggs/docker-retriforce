@@ -19,7 +19,7 @@ ENV KEYSTONEVER 0.9.1
 
 ## Prepare dependencies
 RUN apt-get update -y 
-RUN apt-get install -y python-dev libglib2.0-dev wget less vim sed cmake time python-pip
+RUN apt-get install -y python-dev libglib2.0-dev wget less vim sed cmake time python-pip gdb
 RUN apt-get install -y lib32stdc++-4.8-dev libc6-dev-i386
 RUN pip install --upgrade pip
 
@@ -71,6 +71,12 @@ RUN make install
 # Very important for Ubuntu! Otherwise keystone python scripts will not run
 RUN sed  -i '1i /usr/local/lib/' /etc/ld.so.conf
 RUN ldconfig
+
+##########################################################
+## Install pwngdb
+WORKDIR /usr/src
+RUN git clone https://github.com/scwuaptx/Pwngdb.git
+RUN cp ./Pwngdb/.gdbinit ~/
 
 ###########################################################
 # Cleanup

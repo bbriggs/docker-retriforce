@@ -1,0 +1,4 @@
+# We only care that it builds right now
+sut:
+  build: .
+  command: echo foo
