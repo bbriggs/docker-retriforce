@@ -19,9 +19,10 @@ ENV KEYSTONEVER 0.9.1
 
 ## Prepare dependencies
 RUN apt-get update -y 
-RUN apt-get install -y python-dev libglib2.0-dev wget less vim sed cmake time python-pip gdb
+RUN apt-get install -y python-dev libglib2.0-dev wget less vim sed cmake time python-pip gdb git libssl-dev libffi-dev build-essential
 RUN apt-get install -y lib32stdc++-4.8-dev libc6-dev-i386
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip pwntools
+RUN apt-get clean
 
 ###########################################################
 ## Install the Unicorn Engine
