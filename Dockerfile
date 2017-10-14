@@ -75,9 +75,9 @@ RUN ldconfig
 
 ##########################################################
 ## Install pwngdb
-WORKDIR ~
+WORKDIR /root
 RUN git clone https://github.com/scwuaptx/Pwngdb.git
-RUN cp ~/Pwngdb/.gdbinit ~/
+RUN cp ./Pwngdb/.gdbinit ~/
 RUN wget -O ~/.gdbinit-gef.py -q https://github.com/hugsy/gef/raw/master/gef.py
 RUN git clone https://github.com/longld/peda.git ~/peda
 RUN tac ~/.gdbinit > gdbinit.tmp; echo "~/.gdbinit-gef.py\nsource ~/Pwngdb/angelheap/gdbinit.py" >> gdbinit.tmp && tac ./gdbinit.tmp > ~/.gdbinit && rm -f gdbinit.tmp
