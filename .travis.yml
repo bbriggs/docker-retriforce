@@ -15,5 +15,6 @@ install:
   - docker pull bbriggs/retriforce
 
 script:
-  - docker build -t bbriggs/retriforce:latest
+  - ls -lah
+  - docker build -t bbriggs/retriforce:latest .
   - clair-scanner --ip 127.0.0.1 bbriggs/retriforce:latest
