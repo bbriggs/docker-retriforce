@@ -1,20 +1,23 @@
 sudo: required
-
 services:
-  - docker
-
+- docker
 language: go
-
 go:
 - '1.9'
-
 install:
-  - docker run -d --name db arminc/clair-db:$(date +%Y-%m-%d)
-  - docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.1
-  - curl -o clair-scanner https://github.com/arminc/clair-scanner/releases/download/v5/clair-scanner_linux_386
-  - docker pull bbriggs/retriforce
-
+- docker run -d --name db arminc/clair-db:$(date +%Y-%m-%d)
+- docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.1
+- curl -o clair-scanner https://github.com/arminc/clair-scanner/releases/download/v5/clair-scanner_linux_386
+- docker pull bbriggs/retriforce
 script:
-  - ls -lah
-  - docker build -t bbriggs/retriforce:latest .
-  - clair-scanner --ip 127.0.0.1 bbriggs/retriforce:latest
+- docker build -t bbriggs/retriforce:latest .
+- ls -lah
+- chmod +x ./clair-scanner
+- ./clair-scanner --ip 127.0.0.1 bbriggs/retriforce:latest
+after_success:
+- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+- docker push bbriggs/retriforce:latest
+env:
+  global:
+  - secure: Wjp/2sQe8IAy++JksEBeDXIrh6bFaNZC/dslfb5RxDf7pDNrv4ZLIgJXqVD2ct/YdMrqsYYhY8YZaMaj+0kpzFS5tysH6C1LTY2srSlLeQWPO9Id/XQQ/s0s5wLjTnPgz946c/z7X1yssi0gdYjeuiQdsZSzCRs3QYfxFnMzqpn7J1l0lTZ1rrNx+Bl5sbRusmnMjb91nAJQH5cxhzliI5klRrHC0AfaiY0C5GDu/9syFifFEJFlEVSdLL6QT/NJcNrk4VWvp8MoOX2B4YmnrPDv+X0tLftPiBYvuFQG+3mDjewAstSJnEyekBjj1SHGPmPTpkhtRgde1tRztcvMUb30+znNLIaUeNhEeTlOgN8GmKVjSO2vAj4EvPLBNqT9gib5vn8LFyCUvaW2A6EsR7WGHmhaqo4EQfsT045L4e2zGuZ5AW/SjzS4ROUkH0Rl/i7/Uh3RWFvW2l0tmE6henr8LiHGZzOYFdOa+jLEsFb46Hkg4SnBubQC98aJ+uHXERAcYxGWx8HgIKKA7FUb6OGl0NErhOClvky6JnFyz20/E0VXxxXBYjrLk7P8Wuu9BKJ06sdZYokfihhGFzZjftMe/m6xJYN6BWAJ3Es2mQJQgcIFFWxydfKN6h0UCFdimEH4hMyK5ttO5iVxaXZanJ3zCvAYhbE12vXGHXdzLfk=
+  - secure: lgNQau8vHIWi40sLa4HcZowVSZOce6vbv3KVdVnv8xd6lPYVUBO7WEWDyYad6bFSPsUD0ifUbygOSi9Be9UIanFjhd9m5Mp7Xj7zse1uL+9GENZwlKJHjU/FzE7LEG7Faa9O+E7+0bxRExwodOGB7T44SeSMavE20DIDbGLggs6pf5s9DSTPOXcatqrQc0S+gKdmzyPTIcOwqBHrzEgV8rCzIHzyv9Uj6FNyOO03xdDofOmkM73Gxed5+Sr2+kTwjlr+OmmBI/a+X/0hKur8DeqqBINUtmboTYm8ZsTiG9S8plLviKswmgKhtNEdE/aZnoKPJm65dpn3thlTyrH0ecsn+feHOOyLH4B0vQaDGN9BbEi36iZZyejEm28z0v6wCvuwD66/HfNE15++XxC6YUcoRkT5x4BzFOQ0WRcOtxNhtZAL7/9XCUvaKGC5Dsl9shC0vU3mk8jP2M2AWA/OWJiQY5rXZowdprLV0PNvItuxvpwOVktBC6EZROk/EoXKGWVMgC53GehJwK06+e4z9b2E4qlLJZLx9ST6YHnpdwE/ffryd8Ij7Pl4fJMCWLVdTV1TaQIs7qKWFwvnfG/TNwQsW7+JVL6ShIAuUoJzIIyL1WkGkyELwNkUofCZX3DN/R3WC2s+/i2lDGmTgFWW8Ud4B2uI2/aS68JHl/HEZYI=
