@@ -10,8 +10,8 @@ install:
 - wget -O clair-scanner https://github.com/arminc/clair-scanner/releases/download/v5/clair-scanner_linux_386
 - docker pull bbriggs/retriforce
 script:
+- docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 - docker build -t bbriggs/retriforce:latest .
-- ls -lah
 - chmod +x ./clair-scanner
 - ./clair-scanner --ip 127.0.0.1 bbriggs/retriforce:latest
 after_success:
