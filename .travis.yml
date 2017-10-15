@@ -1,0 +1,20 @@
+sudo: required
+
+services:
+  - docker
+
+language: go
+
+go:
+- '1.9'
+
+before_install:
+  - docker run -d --name db arminc/clair-db:$(date +%Y-%m-%d)x
+  - docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.1
+  - git clone https://github.com/arminc/clair-scanner.git
+  - cd clair-scanner && make ensure && make build
+  - docker pull bbriggs/retriforce
+
+script:
+  - docker build -t bbriggs/retriforce:latest
+  - clair-scanner --ip 127.0.0.1 bbriggs/retriforce:latest
