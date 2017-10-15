@@ -8,7 +8,7 @@ language: go
 go:
 - '1.9'
 
-before_install:
+install:
   - docker run -d --name db arminc/clair-db:$(date +%Y-%m-%d)
   - docker run -p 6060:6060 --link db:postgres -d --name clair arminc/clair-local-scan:v2.0.1
   - curl -o clair-scanner https://github.com/arminc/clair-scanner/releases/download/v5/clair-scanner_linux_386
