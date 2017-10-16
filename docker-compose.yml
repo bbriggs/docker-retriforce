@@ -1,4 +1,28 @@
-# We only care that it builds right now
-sut:
-  build: .
-  command: python -c "import unicorn"
+version: '2.1'
+
+services:
+  postgres:
+    image: arminc/clair-db:2017-10-15
+    volumes:
+      - ./docker-compose-data/postgres-data/:/var/lib/postgresql/data:rw    
+  clair:
+    image: arminc/clair-local-scan:v2.0.1
+    restart: unless-stopped
+    volumes:
+      - ./docker-compose-data/clair-config/:/config/:ro
+      - ./docker-compose-data/clair-tmp/:/tmp/:rw
+    depends_on: 
+      postgres:
+        condition: service_started
+    command: [--log-level=debug, --config, /config/config.yml]   
+  clairctl:
+    image: jgsqware/clairctl:latest
+    restart: unless-stopped
+    environment: 
+      - DOCKER_API_VERSION=1.24
+    volumes:
+      - ./docker-compose-data/clairctl-reports/:/reports/:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on: 
+      clair: 
+        condition: service_started
