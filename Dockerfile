@@ -19,11 +19,26 @@ ENV KEYSTONEVER 0.9.1
 
 ## Prepare dependencies
 RUN apt-get update -y 
-RUN apt-get install -y python-dev libglib2.0-dev wget less vim sed cmake time python-pip gdb git libssl-dev libffi-dev build-essential
+RUN apt-get install -y python-dev libglib2.0-dev wget less vim sed cmake time python-pip gdb git libssl-dev libffi-dev build-essential ruby-full
 RUN apt-get install -y lib32stdc++-4.8-dev libc6-dev-i386
 RUN pip install --upgrade pip pwntools
 RUN apt-get install -y glibc-source
 RUN apt-get clean
+
+###########################################################
+## Install radare2
+WORKDIR /root
+RUN git clone https://github.com/radare/radare2
+RUN cd radare2
+RUN ./sys/install.sh
+
+###########################################################
+## Install ropper
+RUN pip install ropper
+
+###########################################################
+## Install one_gadget
+RUN gem install one_gadget
 
 ###########################################################
 ## Install the Unicorn Engine
