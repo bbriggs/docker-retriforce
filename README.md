@@ -18,3 +18,13 @@ An automated build of cetfor's [Retriforce setup](https://gist.github.com/cetfor
 - [Pwngdb](https://github.com/scwuaptx/Pwngdb)
 - [gef](https://raw.githubusercontent.com/hugsy/gef/master/gef.py)
 - [Peda](https://github.com/longld/peda)
+
+## GDB Error
+
+When debugging with GDB, you'll probably run into the following error:
+
+```
+warning: Error disabling address space randomization: Operation not permitted
+```
+
+In order to get around that, use the `--privileged` flag during `docker run`.
