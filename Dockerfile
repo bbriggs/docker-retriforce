@@ -25,6 +25,12 @@ RUN pip install --upgrade pip pwntools
 RUN apt-get install -y glibc-source
 RUN apt-get clean
 
+# Install angr
+RUN pip install angr
+
+# Install z3
+RUN pip install z3-solver
+
 ###########################################################
 ## Install the Unicorn Engine
 # Get the Unicorn-Engine sources
