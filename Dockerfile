@@ -94,6 +94,6 @@ RUN rm -rf /usr/src/*
 
 # Add extra scripts
 WORKDIR /root
-COPY ./scripts ./scripts
+COPY scripts/ /root/scripts
 
 ENTRYPOINT /bin/bash
