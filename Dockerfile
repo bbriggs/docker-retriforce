@@ -92,5 +92,8 @@ RUN tac ~/.gdbinit > gdbinit.tmp; echo "source ~/.gdbinit-gef.py\nsource ~/Pwngd
 # Cleanup
 RUN rm -rf /usr/src/*
 
+# Add extra scripts
 WORKDIR /root
+COPY ./scripts ./scripts
 
+ENTRYPOINT /bin/bash
